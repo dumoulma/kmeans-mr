@@ -15,6 +15,14 @@ import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
 
+/**
+ * This class is used to create the date to run the algorithm over. The
+ * centroids are all hard coded. Next step would be to use the canopy method to
+ * determine the number of clusters automatically.
+ * 
+ * @author dumoulma
+ * 
+ */
 public class DataGenerator {
     public static void main(String[] args) throws IOException {
         Path centroidOutPath = new Path("data/kmeans/centroid.seq");

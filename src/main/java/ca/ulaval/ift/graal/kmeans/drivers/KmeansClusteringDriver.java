@@ -26,9 +26,14 @@ import ca.ulaval.ift.graal.kmeans.mapreduce.KmeansReducer;
 /**
  * K-Means clustering demo code
  * 
- * Based in part on: Thomas Jungblut's blog apost
- * http://codingwiththomas.blogspot
- * .ca/2011/05/k-means-clustering-with-mapreduce.html
+ * This driver iterates over the data to improve the cluster centroids until an
+ * iteration cutoff or converge
+ * 
+ * <p>
+ * Based in part on: <a href=
+ * "http://codingwiththomas.blogspot.ca/2011/05/k-means-clustering-with-mapreduce.html"
+ * >Thomas Jungblut's blog post</a>
+ * <p>
  */
 public class KmeansClusteringDriver extends Configured implements Tool {
     private static final Logger LOG = LoggerFactory.getLogger(KmeansClusteringDriver.class);
