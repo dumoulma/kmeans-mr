@@ -1,4 +1,5 @@
-package ca.ulaval.ift.graal.fic.utils;
+package ca.ulaval.ift.graal.utils;
+
 
 import java.io.IOException;
 import java.math.BigDecimal;

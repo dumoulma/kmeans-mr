@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 
-import ca.ulaval.ift.graal.fic.utils.Util;
+import ca.ulaval.ift.graal.utils.Util;
 
 public class ShowClusters {
     public static void main(String[] args) throws IOException {

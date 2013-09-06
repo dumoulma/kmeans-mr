@@ -19,9 +19,9 @@ import org.apache.mahout.math.VectorWritable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ca.ulaval.ift.graal.fic.utils.Util;
 import ca.ulaval.ift.graal.kmeans.mapreduce.KmeansMapper;
 import ca.ulaval.ift.graal.kmeans.mapreduce.KmeansReducer;
+import ca.ulaval.ift.graal.utils.Util;
 
 /**
  * K-Means clustering demo code
