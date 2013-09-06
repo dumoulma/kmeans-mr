@@ -57,7 +57,6 @@ public class KmeansClusteringDriver extends Configured implements Tool {
         conf.setFloat("error.threshold", 0.005f);
         Path dataPath = new Path(DATA_PATH);
 
-        long oldCounter = 0;
         int iteration = 1;
         boolean iterationWasSuccessful = true;
         boolean hasConverged = false;
@@ -98,9 +97,9 @@ public class KmeansClusteringDriver extends Configured implements Tool {
                     .findCounter(KmeansReducer.Counter.CONVERGED).getValue();
             LOG.info("KmeansReducer Counter: " + convergenceCounter);
 
-            if (convergenceCounter - oldCounter == K) {
+            if (convergenceCounter == K) {
                 hasConverged = true;
-                LOG.info("Converged!!");
+                LOG.info("CONVERGED! Cluster values have converged.");
             }
         }
 
