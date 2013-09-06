@@ -46,7 +46,7 @@ public class DataGenerator extends Configured implements Tool {
 
         Path centroidOutPath = new Path(INITIAL_CLUSTERS_PATH);
         Path dataOutPath = new Path(DATA_PATH);
-        Configuration conf = new Configuration();
+        Configuration conf = getConf();
         FileSystem fs = FileSystem.get(conf);
         if (fs.exists(dataOutPath))
             fs.delete(centroidOutPath, true);
