@@ -30,7 +30,26 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class DataGenerator extends Configured implements Tool {
+
     private static final Logger LOG = LoggerFactory.getLogger(DataGenerator.class);
+
+    // change this to generate different centroids. This could be
+    // improved by generating random centroid vectors of a specified length or
+    // reading them from a file
+    static final double[][] centroids = { { 1.0, 1.0, 1.0, 1.0 }, { 1.0, 5.0, 1.0, 2.0 },
+            { 2.5, 1.0, 2.5, 1.0 }, { 2.5, 5.0, 1.0, 1.5 }, { 5.0, 1.0, 5.0, 2.5 },
+            { 5.0, 5.0, 5.0, 5.0 } };
+
+    // This value should match the length of the vectors defined in centroids!
+    private static final int VECTOR_LENGTH = 4;
+
+    // a smaller value of sigma will make the point clouds smaller, the
+    // centroids will be easier to find
+    private static final double SIGMA = 3;
+
+    // for each centroid, how many points to generate (should be very large if
+    // run on a cluster)
+    private static final int N_POINTS = 100000;
 
     private static final String DATA_PATH = "data/kmeans/data.seq";
     private static final String INITIAL_CLUSTERS_PATH = "data/kmeans/centroid.seq";
@@ -58,23 +77,23 @@ public class DataGenerator extends Configured implements Tool {
 
         RandomGenerator randomData = new Well19937c();
         ValueServer valueServer = new ValueServer(randomData);
-        valueServer.setSigma(2.5);
+        valueServer.setSigma(SIGMA);
         try {
             centroidOut = SequenceFile.createWriter(fs, conf, centroidOutPath, IntWritable.class,
                     VectorWritable.class);
             dataOut = SequenceFile.createWriter(fs, conf, dataOutPath, LongWritable.class,
                     VectorWritable.class);
 
-            double[][] centroids = { { 1.0, 1.0 }, { 1.0, 5.0 }, { 2.5, 1.0 }, { 2.5, 5.0 },
-                    { 5.0, 1.0 }, { 5.0, 5.0 } };
             for (int i = 0; i < centroids.length; i++) {
-                for (int j = 0; j < 100000; j++) {
-                    double[] values = new double[2];
-                    values[0] = randomData.nextGaussian() + centroids[i][0];
-                    values[1] = randomData.nextGaussian() + centroids[i][1];
+                for (int j = 0; j < N_POINTS; j++) {
+                    double[] values = new double[VECTOR_LENGTH];
+                    for (int k = 0; k < VECTOR_LENGTH; k++) {
+                        values[k] = randomData.nextGaussian() + centroids[i][k];
+                    }
+
                     Vector v = new DenseVector(values);
                     dataOut.append(new LongWritable((i + 1) * j), new VectorWritable(v));
-                    
+
                     LOG.debug("New vector added: " + v.toString());
                 }
                 centroidOut.append(new IntWritable(i), new VectorWritable(new DenseVector(
@@ -90,7 +109,7 @@ public class DataGenerator extends Configured implements Tool {
                 dataOut.close();
             }
         }
-        
+
         LOG.info("SUCCEEDED!");
 
         return JobStatus.SUCCEEDED;
